@@ -29,8 +29,7 @@ app.post('/mypost',async (req, res) =>{
     console.log(req.body);
     console.log(req.files);
 
-
-    let fileArray = [];
+    //let fileArray = [];
 
     //case mutliple files
 
@@ -48,16 +47,17 @@ app.post('/mypost',async (req, res) =>{
 
   //  use case for single file/images
     let file = req.files.sample;
-    result = await cloudinary.uploader.upload(file.tempFilePath,{
+    const result = await cloudinary.uploader.upload(file.tempFilePath,{
         folder: 'users'
     })
 
     const details =  {
         firstname : req.body.firstname,
         lastname : req.body.lastname,
-        file
+        public_id: result.public_id,
+        secure_url : result.secure_url
     }
-    console.log(file);
+    console.log(details);
 
     res.send(details);
 })
