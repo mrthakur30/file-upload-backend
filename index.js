@@ -34,42 +34,35 @@ app.post('/mypost',async (req, res) =>{
 
     //case mutliple files
 
-    if(req.files){
-        for(let index = 0 ; index < req.files.sample.length ; index++){
-            let result = await cloudinary.uploader.upload(req.files.sample[index].tempFilePath,{
-                folder: 'users' 
-            })
-        fileArray.push({
-            public_id: result.public_id,
-            secure_url : result.secure_url
-        })
-        }
-    }
+    // if(req.files){
+    //     for(let index = 0 ; index < req.files.sample.length ; index++){
+    //         let result = await cloudinary.uploader.upload(req.files.sample[index].tempFilePath,{
+    //             folder: 'users' 
+    //         })
+    //     fileArray.push({
+    //         public_id: result.public_id,
+    //         secure_url : result.secure_url
+    //     })
+    //     }
+    // }
 
-    // use case for single file/images
-    //let file = req.files.sample;
-    // result = await cloudinary.uploader.upload(file.tempFilePath,{
-    //     folder: 'users'
-    // })
+  //  use case for single file/images
+    let file = req.files.sample;
+    result = await cloudinary.uploader.upload(file.tempFilePath,{
+        folder: 'users'
+    })
 
     const details =  {
         firstname : req.body.firstname,
         lastname : req.body.lastname,
-        fileArray
+        file
     }
-    console.log(fileArray);
+    console.log(file);
 
     res.send(details);
 })
 
-app.get('/myget', (req, res) =>{ 
-    console.log(req.body);
-    res.send(req.query);
-})
 
-app.get('/mygetform', (req, res) =>{ 
-    res.render('getForm')
-})
 
 app.get('/mypostform', (req, res) =>{ 
     res.render('postForm')
